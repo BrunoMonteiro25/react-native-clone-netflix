@@ -6,19 +6,10 @@ import Home from './src/pages/Home'
 // import { Provider as PaperProvider } from 'react-native-paper'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Home />
-      <StatusBar style="light" translucent={false} />
-    </View>
-  )
+  return <Home />
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#111',
-  },
   text: {
     color: '#fafafa',
   },

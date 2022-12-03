@@ -4,15 +4,15 @@ import Hero from '../../components/Hero'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ButtonVertical from '../../components/ButtonVertical'
 import { StatusBar } from 'expo-status-bar'
+import Previews from '../../components/Previews'
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  FlatList,
-  Image,
   ScrollView,
 } from 'react-native'
+import Secao from '../../components/Secao'
 
 export default function Home() {
   return (
@@ -33,27 +33,12 @@ export default function Home() {
 
         <View style={styles.previews}>
           <Text style={styles.textPreviews}>Prévias</Text>
-          <FlatList
-            style={styles.flatListContainer}
-            horizontal
-            data={[1, 2, 3, 4, 5, 6]}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                key={index}
-                style={{ marginLeft: index === 0 ? 35 : 0, marginRight: 10 }}
-              >
-                <View style={styles.oval}>
-                  <Image
-                    style={styles.capa}
-                    source={{ uri: 'https://i.imgur.com/HOOt0ZR.jpg' }}
-                  />
-
-                  <Image source={{ uri: 'https://i.imgur.com/yhjZgM3.png' }} />
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+          <Previews />
         </View>
+
+        {[1, 2, 3, 4].map((secao, index) => (
+          <Secao key={index} />
+        ))}
       </ScrollView>
     </View>
   )
@@ -69,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     justifyContent: 'space-evenly',
-    marginTop: 20,
+    marginTop: 15,
   },
   buttonPlay: {
     alignItems: 'center',
@@ -86,7 +71,7 @@ const styles = StyleSheet.create({
   },
   previews: {
     width: '100%',
-    marginTop: 50,
+    marginTop: 35,
   },
   textPreviews: {
     color: '#fafafa',
@@ -94,23 +79,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 41,
     fontWeight: '500',
-  },
-  flatListContainer: {
-    width: '100%',
-    height: 100,
-    marginTop: 10,
-    marginBottom: 50,
-  },
-  oval: {
-    backgroundColor: '#E50914',
-    padding: 2.5,
-    width: 90,
-    height: 90,
-    borderRadius: 90,
-  },
-  capa: {
-    width: 85,
-    height: 85,
-    borderRadius: 85,
   },
 })
