@@ -3,6 +3,7 @@ import Header from '../../components/Header'
 import Hero from '../../components/Hero'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ButtonVertical from '../../components/ButtonVertical'
+import { StatusBar } from 'expo-status-bar'
 import {
   StyleSheet,
   Text,
@@ -15,54 +16,60 @@ import {
 
 export default function Home() {
   return (
-    <View>
-      <Header />
-      <Hero />
+    <View style={styles.container}>
+      <ScrollView>
+        <StatusBar style="light" translucent={false} />
+        <Header />
+        <Hero />
 
-      <View style={styles.menuHeader}>
-        <ButtonVertical name="plus" text="Minha Lista" />
-        <TouchableOpacity style={styles.buttonPlay}>
-          <Icon name="play" color="#111" size={20} />
-          <Text style={styles.textPlay}>Assistir</Text>
-        </TouchableOpacity>
-        <ButtonVertical name="information-outline" text="Saiba Mais" />
-      </View>
+        <View style={styles.menuHeader}>
+          <ButtonVertical name="plus" text="Minha Lista" />
+          <TouchableOpacity style={styles.buttonPlay}>
+            <Icon name="play" color="#111" size={20} />
+            <Text style={styles.textPlay}>Assistir</Text>
+          </TouchableOpacity>
+          <ButtonVertical name="information-outline" text="Saiba Mais" />
+        </View>
 
-      <View style={styles.previews}>
-        <Text style={styles.textPreviews}>Prévias</Text>
-        <FlatList
-          style={styles.flatListContainer}
-          horizontal
-          data={[1, 2, 3, 4, 5, 6]}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              key={index}
-              style={{ marginLeft: index === 0 ? 35 : 0, marginRight: 10 }}
-            >
-              <View style={styles.oval}>
-                <Image
-                  style={styles.capa}
-                  source={{ uri: 'https://i.imgur.com/HOOt0ZR.jpg' }}
-                />
+        <View style={styles.previews}>
+          <Text style={styles.textPreviews}>Prévias</Text>
+          <FlatList
+            style={styles.flatListContainer}
+            horizontal
+            data={[1, 2, 3, 4, 5, 6]}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                key={index}
+                style={{ marginLeft: index === 0 ? 35 : 0, marginRight: 10 }}
+              >
+                <View style={styles.oval}>
+                  <Image
+                    style={styles.capa}
+                    source={{ uri: 'https://i.imgur.com/HOOt0ZR.jpg' }}
+                  />
 
-                <Image source={{ uri: 'https://i.imgur.com/yhjZgM3.png' }} />
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+                  <Image source={{ uri: 'https://i.imgur.com/yhjZgM3.png' }} />
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </ScrollView>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#111',
+  },
   menuHeader: {
-    width: '100%',
     height: 38,
     flexDirection: 'row',
+    justifyContent: 'center',
     justifyContent: 'space-evenly',
-    top: 470,
-    // backgroundColor: '#e4a4e4',
+    marginTop: 20,
   },
   buttonPlay: {
     alignItems: 'center',
@@ -78,8 +85,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   previews: {
-    top: 520,
     width: '100%',
+    marginTop: 50,
   },
   textPreviews: {
     color: '#fafafa',

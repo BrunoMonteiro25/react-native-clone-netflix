@@ -34,8 +34,6 @@ export default function Hero() {
 const styles = StyleSheet.create({
   hero: {
     height: 500,
-    width: '100%',
-    position: 'absolute',
   },
   logo: {
     marginTop: 275,

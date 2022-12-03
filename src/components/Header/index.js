@@ -40,16 +40,13 @@ export default function Header() {
 const styles = StyleSheet.create({
   container: {
     marginTop: Platform.OS === 'android' ? 0 : '5%',
-    marginBottom: Platform.OS === 'android' ? '13%' : '15%',
   },
   header: {
     width: '100%',
     position: 'absolute',
-    top: 0,
     zIndex: 999,
   },
   headerSafeAreaView: {
-    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
