@@ -9,11 +9,11 @@ import {
   Image,
 } from 'react-native'
 
-export default function Secao({ hasTopBorder }) {
+export default function Secao({ hasTopBorder, children }) {
   return (
     <View style={styles.container}>
       {hasTopBorder && <View style={styles.borderTop} />}
-      <Text style={styles.text}>Populares da Netflix</Text>
+      <Text style={styles.text}>{children}</Text>
 
       <FlatList
         style={styles.flatListContainer}

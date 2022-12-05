@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
   text: {
     color: '#fafafa',
     letterSpacing: 0.2,
+    marginTop: 5,
   },
 })
