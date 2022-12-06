@@ -1,4 +1,5 @@
 import {
+  FlatList,
   ImageBackground,
   ScrollView,
   StyleSheet,
@@ -6,15 +7,37 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar'
 import ButtonVertical from '../../components/ButtonVertical'
 import Secao from '../../components/Secao'
+import Episodio from '../../components/Episodio'
+import { SinglePickerMaterialDialog } from 'react-native-material-dialog'
 
 export default function Movie() {
+  const [type] = useState('serie')
+  const [visible, setVisible] = useState(false)
+  const [temporada, setTemporada] = useState({ value: 1, label: 'Temporada 1' })
+
   return (
     <View style={styles.container}>
+      <SinglePickerMaterialDialog
+        title={'Série - Temporadas'}
+        items={[
+          { value: 1, label: 'Temporada 1' },
+          { value: 2, label: 'Temporada 2' },
+          { value: 3, label: 'Temporada 3' },
+        ]}
+        visible={visible}
+        selectedItem={temporada}
+        onCancel={() => setVisible(false)}
+        onOk={(result) => {
+          setVisible(false)
+          setTemporada(result.selectedItem)
+        }}
+      />
+
       <ScrollView>
         <StatusBar style="light" />
         <ImageBackground
@@ -61,9 +84,30 @@ export default function Movie() {
           <ButtonVertical name="download" text="Baixar" />
         </View>
 
-        <View style={styles.semelhantes}>
-          <Secao hasTopBorder children="Títulos Semelhantes" />
-        </View>
+        {type === 'filme' && (
+          <View style={styles.semelhantes}>
+            <Secao hasTopBorder children="Títulos Semelhantes" />
+          </View>
+        )}
+        {type === 'serie' && (
+          <>
+            <View style={styles.tempContainer}>
+              <TouchableOpacity
+                onPress={() => setVisible(true)}
+                style={styles.tempButton}
+              >
+                <Text style={styles.tempName}>{temporada.label}</Text>
+                <Icon name="chevron-down" color="#fff" size={20} />
+              </TouchableOpacity>
+
+              <FlatList
+                data={[1, 2, 3]}
+                style={{ width: '100%' }}
+                renderItem={({ item, index }) => <Episodio key={index} />}
+              />
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   )
@@ -133,5 +177,27 @@ const styles = StyleSheet.create({
   semelhantes: {
     marginHorizontal: -15,
     marginVertical: 50,
+  },
+  tempContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginVertical: 35,
+  },
+  tempButton: {
+    width: '87%',
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.21)',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 3,
+  },
+  tempName: {
+    color: '#fafafa',
+    fontWeight: '500',
+    letterSpacing: 0.3,
+    fontSize: 15,
   },
 })
