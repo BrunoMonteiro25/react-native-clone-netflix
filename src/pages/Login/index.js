@@ -12,7 +12,7 @@ import {
   Platform,
 } from 'react-native'
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [credenciais, setCredenciais] = useState({
     email: '',
     senha: '',
@@ -43,9 +43,7 @@ export default function Login() {
 
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() =>
-          alert(`Email: ${credenciais.email}, Senha: ${credenciais.senha}`)
-        }
+        onPress={() => navigation.navigate('Home')}
       >
         <Text style={styles.loginText}>Entrar</Text>
       </TouchableOpacity>

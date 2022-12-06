@@ -1,17 +1,7 @@
 import React from 'react'
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import Login from './src/pages/Login'
-import Home from './src/pages/Home'
-import Movie from './src/pages/Movie'
-// import { Provider as PaperProvider } from 'react-native-paper'
+
+import Routes from './routes'
 
 export default function App() {
-  return <Movie />
+  return <Routes />
 }
-
-const styles = StyleSheet.create({
-  text: {
-    color: '#fafafa',
-  },
-})
