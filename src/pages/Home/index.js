@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <StatusBar style="light" translucent={false} />
+        <StatusBar style="light" backgroundColor="#000" translucent={false} />
         <Header />
         <Hero />
 
