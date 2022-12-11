@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import Hero from '../../components/Hero'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -11,16 +11,52 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
 import Secao from '../../components/Secao'
 
+import api from '../../services/api'
+
 export default function Home() {
+  const [refreshing, setRefreshing] = useState(false)
+  const [principal, setPrincipal] = useState({})
+  const [secoes, setSecoes] = useState([])
+
+  const getHome = async () => {
+    try {
+      setRefreshing(true)
+      const response = await api.get('/home')
+      const res = response.data
+
+      if (res.error) {
+        alert(res.message)
+        setRefreshing(false)
+        return false
+      }
+
+      setPrincipal(res.principal)
+      setSecoes(res.secoes)
+      setRefreshing(false)
+    } catch (err) {
+      setRefreshing(false)
+      alert(err.message)
+    }
+  }
+
+  useEffect(() => {
+    getHome()
+  }, [])
+
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={getHome} />
+        }
+      >
         <StatusBar style="light" backgroundColor="#000" translucent={false} />
         <Header />
-        <Hero />
+        <Hero filme={principal} />
 
         <View style={styles.menuHeader}>
           <ButtonVertical name="plus" text="Minha Lista" />
@@ -33,11 +69,11 @@ export default function Home() {
 
         <View style={styles.previews}>
           <Text style={styles.textPreviews}>Prévias</Text>
-          <Previews />
+          <Previews filmes={secoes[1]} />
         </View>
 
-        {[1, 2, 3, 4].map((secao, index) => (
-          <Secao key={index} children="Populares na Netflix" />
+        {secoes.map((secao, index) => (
+          <Secao secao={secao} key={index} children="Populares na Netflix" />
         ))}
       </ScrollView>
     </View>

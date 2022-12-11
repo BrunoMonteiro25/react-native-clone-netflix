@@ -4,7 +4,7 @@ import React from 'react'
 export default function PaginaTeste() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Página Teste</Text>
+      <Text style={styles.text}>Em breve...</Text>
     </View>
   )
 }
