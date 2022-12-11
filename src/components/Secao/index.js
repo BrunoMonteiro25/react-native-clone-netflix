@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native'
 
-export default function Secao({ hasTopBorder, children }) {
+export default function Secao({ hasTopBorder, children, secao }) {
   return (
     <View style={styles.container}>
       {hasTopBorder && <View style={styles.borderTop} />}
@@ -18,7 +18,7 @@ export default function Secao({ hasTopBorder, children }) {
       <FlatList
         style={styles.flatListContainer}
         horizontal
-        data={[1, 2, 3, 4, 5]}
+        data={secao}
         renderItem={({ item, index }) => (
           <TouchableOpacity key={index}>
             <ImageBackground
@@ -26,13 +26,15 @@ export default function Secao({ hasTopBorder, children }) {
                 styles.capa,
                 { marginRight: 20, marginLeft: index === 0 ? 41 : 0 },
               ]}
-              source={{ uri: 'https://i.imgur.com/eXbhbs4.jpg' }}
+              source={{ uri: item.capa }}
             >
               <View style={styles.logoContainer}>
                 <Image
                   style={styles.logo}
                   resizeMode="contain"
-                  source={{ uri: 'https://i.imgur.com/TKwvurS.png' }}
+                  source={{
+                    uri: item.logoMobile ? item.logoMobile : item.logo,
+                  }}
                 />
               </View>
             </ImageBackground>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 45,
-    marginHorizontal: 25,
+    //marginHorizontal: 25,
   },
   borderTop: {
     backgroundColor: '#E50914',

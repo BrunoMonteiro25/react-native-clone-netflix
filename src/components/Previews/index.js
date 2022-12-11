@@ -8,27 +8,24 @@ import {
   Image,
 } from 'react-native'
 
-export default function Previews() {
+export default function Previews({ filmes }) {
   return (
     <FlatList
       style={styles.flatListContainer}
       horizontal
-      data={[1, 2, 3, 4, 5, 6]}
+      data={filmes}
       renderItem={({ item, index }) => (
         <TouchableOpacity
           key={index}
           style={{ marginLeft: index === 0 ? 35 : 0, marginRight: 20 }}
         >
           <View style={styles.oval}>
-            <Image
-              style={styles.capa}
-              source={{ uri: 'https://i.imgur.com/2xx9J0i.jpg' }}
-            />
+            <Image style={styles.capa} source={{ uri: item.capa }} />
 
             <Image
               resizeMode="contain"
               style={styles.logo}
-              source={{ uri: 'https://i.imgur.com/IeR5h4p.png' }}
+              source={{ uri: item.logoMobile ? item.logoMobile : item.logo }}
             />
 
             <LinearGradient

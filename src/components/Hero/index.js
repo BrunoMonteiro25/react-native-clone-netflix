@@ -2,16 +2,13 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native'
 
-export default function Hero() {
+export default function Hero({ filme }) {
   return (
-    <ImageBackground
-      style={styles.hero}
-      source={{ uri: 'https://i.imgur.com/HOOt0ZR.jpg' }}
-    >
+    <ImageBackground style={styles.hero} source={{ uri: filme.capa }}>
       <Image
         style={styles.logo}
         resizeMode="contain"
-        source={{ uri: 'https://i.imgur.com/yhjZgM3.png' }}
+        source={{ uri: filme.logoMobile ? filme.logoMobile : filme.logo }}
       />
 
       <View style={styles.containerTop10}>
