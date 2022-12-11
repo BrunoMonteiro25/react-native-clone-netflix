@@ -4,14 +4,16 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "android": "expo start --android && adb reverse tcp:8000 tcp:8000",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-navigation/material-bottom-tabs": "^6.2.7",
     "@react-navigation/native": "^6.0.16",
     "@react-navigation/native-stack": "^6.9.4",
+    "axios": "^1.2.1",
     "expo": "~47.0.8",
     "expo-linear-gradient": "~12.0.1",
     "expo-status-bar": "~1.4.2",
