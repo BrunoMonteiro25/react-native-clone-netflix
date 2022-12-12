@@ -73,7 +73,7 @@ export default function Home() {
         </View>
 
         {secoes.map((secao, index) => (
-          <Secao secao={secao} key={index} children="Populares na Netflix" />
+          <Secao secao={secao} key={index} />
         ))}
       </ScrollView>
     </View>
