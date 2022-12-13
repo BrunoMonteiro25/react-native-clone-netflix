@@ -69,6 +69,8 @@ export default function Login({ navigation }) {
         <>
           <TextInput
             placeholder="Email ou número de telefone"
+            autoCapitalize="none"
+            textContentType="emailAddress"
             value={credenciais.email}
             style={styles.input}
             placeholderTextColor="#fafafa"
