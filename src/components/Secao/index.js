@@ -8,8 +8,11 @@ import {
   ImageBackground,
   Image,
 } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Secao({ hasTopBorder, secao }) {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
       {hasTopBorder && <View style={styles.borderTop} />}
@@ -20,7 +23,10 @@ export default function Secao({ hasTopBorder, secao }) {
         horizontal
         data={secao}
         renderItem={({ item, index }) => (
-          <TouchableOpacity key={index}>
+          <TouchableOpacity
+            key={index}
+            onPress={() => navigation.navigate('Movie', { filme: item, secao })}
+          >
             <ImageBackground
               style={[
                 styles.capa,
