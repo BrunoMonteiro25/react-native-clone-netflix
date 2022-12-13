@@ -1,25 +1,21 @@
 import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
 import React from 'react'
 
-export default function Episodio() {
+export default function Episodio({ episodio }) {
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.episodio}>
         <View>
-          <Image
-            style={styles.img}
-            source={{ uri: 'https://i.imgur.com/eXbhbs4.jpg' }}
-          />
+          <Image style={styles.img} source={{ uri: episodio.capa }} />
         </View>
         <View>
-          <Text style={styles.nomeEpisodio}>1. Nome do episodio</Text>
+          <Text style={styles.nomeEpisodio}>
+            {episodio.numero}. {episodio.titulo}
+          </Text>
           <Text style={styles.tempoEpisodio}>45 mins.</Text>
         </View>
       </View>
-      <Text style={styles.descricao}>
-        There are many variations of passages of Lorem Ipsum available, but the
-        majority have suffered alteration in some form, by injected humour,
-      </Text>
+      <Text style={styles.descricao}>{episodio.descricao}</Text>
     </TouchableOpacity>
   )
 }

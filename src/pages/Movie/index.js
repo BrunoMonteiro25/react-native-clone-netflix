@@ -7,73 +7,105 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { StatusBar } from 'expo-status-bar'
 import ButtonVertical from '../../components/ButtonVertical'
 import Secao from '../../components/Secao'
 import Episodio from '../../components/Episodio'
 import { SinglePickerMaterialDialog } from 'react-native-material-dialog'
+import api from '../../services/api'
 
-export default function Movie() {
-  const [type] = useState('serie')
+export default function Movie({ route, navigation }) {
+  const { filme, secao } = route.params
+
   const [visible, setVisible] = useState(false)
-  const [temporada, setTemporada] = useState({ value: 1, label: 'Temporada 1' })
+  const [temporada, setTemporada] = useState({
+    value: filme?.temporadas[0]?._id,
+    label: filme?.temporadas[0]?.titulo,
+  })
+  const [episodios, setEpisodios] = useState([])
+
+  const getEpisodios = async (temporada_id) => {
+    try {
+      const response = await api.get(`/episodeo/temporada/${temporada_id}`)
+      const res = response.data
+
+      if (res.error) {
+        alert(res.message)
+        return false
+      }
+
+      setEpisodios(res.episodeos)
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  useEffect(() => {
+    if (filme.tipo === 'Series') {
+      getEpisodios(temporada.value)
+    }
+  }, [])
 
   return (
     <View style={styles.container}>
       <SinglePickerMaterialDialog
-        title={'Série - Temporadas'}
-        items={[
-          { value: 1, label: 'Temporada 1' },
-          { value: 2, label: 'Temporada 2' },
-          { value: 3, label: 'Temporada 3' },
-        ]}
+        title={`${filme.titulo} - Temporadas`}
+        items={filme?.temporadas.map((temporada) => ({
+          value: temporada._id,
+          label: temporada.titulo,
+        }))}
         visible={visible}
         selectedItem={temporada}
         onCancel={() => setVisible(false)}
         onOk={(result) => {
+          getEpisodios(result.selectedItem.value)
           setVisible(false)
           setTemporada(result.selectedItem)
         }}
       />
 
       <ScrollView>
-        <StatusBar style="light" />
-        <ImageBackground
-          style={styles.hero}
-          source={{ uri: 'https://i.imgur.com/iDm1pXK.png' }}
-        />
+        {/* <StatusBar style="light" /> */}
+        <ImageBackground style={styles.hero} source={{ uri: filme.capa }}>
+          <TouchableOpacity
+            style={styles.buttonBack}
+            onPress={() => {
+              navigation.goBack()
+            }}
+          >
+            <Icon
+              style={{ position: 'absolute' }}
+              name="arrow-left"
+              color="#fff"
+              size={25}
+            />
+          </TouchableOpacity>
+        </ImageBackground>
         <View style={styles.containerDetails}>
-          <Text style={styles.title}>Gotham</Text>
+          <Text style={styles.title}>{filme.titulo}</Text>
           <TouchableOpacity style={styles.buttonPlay}>
             <Icon name="play" color="#111" size={20} />
             <Text style={styles.textPlay}>Assistir</Text>
           </TouchableOpacity>
-          <Text style={styles.sinopse}>
-            Antes de Batman, a cidade de Gotham já existia. James Gordon (Ben
-            McKenzie) é um detetive iniciante polícia. Corajoso, sincero e
-            ansioso para mostrar serviço.
-          </Text>
+          <Text style={styles.sinopse}>{filme.descricao}</Text>
 
           <Text style={styles.containerElenco}>
             <Text style={styles.elencoTitle}>Elenco: </Text>
-            <Text style={styles.elencoAtores}>
-              Ben MacKenzie, Donal Logue, Jada Pinkett Smith
-            </Text>
+            <Text style={styles.elencoAtores}>{filme.elenco.join(', ')}</Text>
           </Text>
 
           <Text style={styles.containerElenco}>
             <Text style={styles.elencoTitle}>Gêneros: </Text>
-            <Text style={styles.elencoAtores}>
-              Séries dramáticas sobre crimes, Séries baseadas em HQ, Séries
-              dramáticas
-            </Text>
+            <Text style={styles.elencoAtores}>{filme.generos.join(', ')}</Text>
           </Text>
 
           <Text style={styles.containerElenco}>
             <Text style={styles.elencoTitle}>Cenas momentos: </Text>
-            <Text style={styles.elencoAtores}>Vigoroso, Empolgantes</Text>
+            <Text style={styles.elencoAtores}>
+              {filme.cenas_momentos.join(', ')}
+            </Text>
           </Text>
         </View>
 
@@ -84,12 +116,12 @@ export default function Movie() {
           <ButtonVertical name="download" text="Baixar" />
         </View>
 
-        {type === 'filme' && (
+        {filme.tipo === 'filme' && (
           <View style={styles.semelhantes}>
-            <Secao hasTopBorder children="Títulos Semelhantes" />
+            <Secao hasTopBorder secao={secao} children="Títulos Semelhantes" />
           </View>
         )}
-        {type === 'serie' && (
+        {filme.tipo === 'Series' && (
           <>
             <View style={styles.tempContainer}>
               <TouchableOpacity
@@ -101,9 +133,11 @@ export default function Movie() {
               </TouchableOpacity>
 
               <FlatList
-                data={[1, 2, 3]}
+                data={episodios}
                 style={{ width: '100%' }}
-                renderItem={({ item, index }) => <Episodio key={index} />}
+                renderItem={({ item, index }) => (
+                  <Episodio episodio={item} key={index} />
+                )}
               />
             </View>
           </>
@@ -120,6 +154,17 @@ const styles = StyleSheet.create({
   },
   hero: {
     height: 275,
+  },
+  buttonBack: {
+    padding: 20,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    width: 40,
+    height: 40,
+    marginTop: 20,
+    marginLeft: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 40,
   },
   containerDetails: {
     width: '100%',
