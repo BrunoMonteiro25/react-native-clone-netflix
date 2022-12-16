@@ -44,7 +44,7 @@ Repositório da API utilizada na aplicação: https://github.com/BrunoMonteiro25
 
 ### Como rodar a aplicação :arrow_forward:
 
-No terminal, clone o projeto : 
+No terminal, clone o projeto: 
 
 ```
 git clone https://github.com/BrunoMonteiro25/api-clone-netlix.git
