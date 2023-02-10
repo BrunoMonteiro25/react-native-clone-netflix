@@ -7,6 +7,7 @@
 
 Aplicativo clone da Netflix feito durante o curso de React Native do canal do youtube (O irmão mais velho).
 
+
 #### Tela de Login
 
 ![login 1](https://user-images.githubusercontent.com/98993736/207734273-e541179a-d7ac-478c-9d16-046eeb671641.png)
